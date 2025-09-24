@@ -1,0 +1,79 @@
+/* start.css */
+@font-face {
+    font-family: "RoundedFixedsys";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff")
+      format("woff");
+    font-weight: normal;
+    font-display: swap;
+  }
+  body {
+    background-image: url("./img/start_Backgroundimg.jpg");
+    background-repeat: repeat-x;
+    background-size: auto 100%; /* 세로에 맞춤 */
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* 가로 가운데 */
+    align-items: flex-start; /* 위쪽 정렬 */
+    overflow: hidden; /* 스크롤바 안 보이게 */
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px; /* 위쪽 여백 */
+    position: relative;
+  }
+  
+  #guide {
+    width: 500px;
+    height: auto;
+    max-height: none; /* 제한 없이 원본 유지 */
+    margin-top: 200px;     /* 위에서 200px 떨어지게 */
+  }
+  
+  #mark {
+    margin-top: 20px;
+  }
+  
+  /* 크로스브라우저 스크롤바 숨기기 */
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+  body {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .container p {
+    font-family: "RoundedFixedsys";
+    font-size: 16px;
+    color: rgb(59, 49, 34); /* 배경 대비 */
+    text-align: center; /* 가운데 정렬 */
+    max-width: 450px; /* 한 줄 너무 길지 않게 */
+    margin-bottom: 20px; /* 안내문 이미지와 간격 */
+    line-height: 1.6; /* 가독성 */
+    padding: 15px 20px; /* 여백 */
+    border-radius: 12px; /* 둥근 모서리 */
+    margin-top: 220px;
+  }
+  
+  .intro {
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px; /* 안내문 이미지와 간격 */
+  }
+  
+  .overlay {
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    white-space: pre-wrap; /* 줄바꿈 유지 */
+    overflow: hidden;
+  }
+  
