@@ -109,7 +109,6 @@ h1 {
 /* 버튼 스타일 */
 button {
   font-family: "GMarketSans", sans-serif;
-
   margin-top: 40px;
   padding: 14px 28px;
   background: linear-gradient(135deg, #c5e864, #7bdc00);
