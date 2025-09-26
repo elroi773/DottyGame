@@ -7,9 +7,28 @@
     <link rel="stylesheet" href="./photocard.css">
 </head>
 <body>
-    <div class="container">
-        <img src="./img/win_photo_ending.png" alt="">
+    <div class="container-top">
+        <h1>
+            도티의 부모가 되신것을 축하합니다!
+        </h1>
+        <br>
+         <!-- 음악 시작 버튼 -->
+         <button id="playButton">도티의 한마디</button>
     </div>
-    <script src = "./photocard.js"></script>
+   
+    <div class="container">
+        <div class="floating-particles" id="particles"></div>
+        
+        <div class="photocard active" id="photocard">
+            <div class="photocard-image" id="cardImage">
+                <img src="./photocard/1.png" alt="포토카드 1" id="cardImg">
+            </div>
+            <div class="photocard-title" id="cardTitle">출생신고서</div>
+        </div>
+    </div>
+
+   
+
+    <script src="./photocard.js"></script>
 </body>
 </html>
