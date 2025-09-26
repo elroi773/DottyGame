@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>개웃겨서 도티 낳음</title>
+    <style>
+      @font-face {
+        font-family: "RoundedFixedsys";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff")
+          format("woff");
+        font-weight: normal;
+        font-display: swap;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-repeat: repeat-x;
+        background-size: auto 100%;
+        font-family: "Arial", sans-serif;
+        overflow: hidden;
+        background-color: #a1dcf5;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+        align-items: center;
+      }
+
+      #bird {
+        width: 1000px;
+        height: 600px;
+        margin: 0;
+        margin-right: 60px;
+      }
+
+      .textbar-container {
+        position: relative;
+        margin-top: -150px; /* 새와 겹치지 않게 살짝 위로 */
+        margin-bottom: 40px;
+      }
+      #textbar {
+        width: 500px;
+        height: 300px;
+      }
+      .message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        text-align: center;
+        font-size: 20px;
+        color: #333;
+        line-height: 1.5;
+        font-family: "RoundedFixedsys";
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <img src="./img/victory_background.png" alt="" id="bird" />
+      </div>
+      <div class="textbar-container">
+        <img src="./img/victory_text_bar.png" alt="" id="textbar" />
+        <p class="message" id="message"></p>
+      </div>
+    </div>
+
+    <script>
+      const text =
+        "축하해. 진짜 도티와 가짜 도티를 잘 구별해 냈네 너는 도티의 부모로 인정할께 이제 너의 도티를 낳아 행복해야 해..!";
+      const messageElement = document.getElementById("message");
+      let i = 0;
+
+      function typeWriter() {
+        if (i < text.length) {
+          messageElement.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(typeWriter, 100); // 글자 입력 속도
+        }
+      }
+
+      window.onload = typeWriter;
+    </script>
+  </body>
+</html>

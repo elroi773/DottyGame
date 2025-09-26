@@ -38,6 +38,10 @@ class FallingFaceGame {
         document.getElementById('restartBtn').addEventListener('click', () => {
             this.restart();
         });
+
+        document.getElementById('nextPageBtn')?.addEventListener('click', () => {
+            window.location.href = './photocard.html';
+        });
     }
     
     updatePlayerPosition() {
@@ -75,25 +79,31 @@ class FallingFaceGame {
         if (isTarget) {
             item.src = './img/face.png';
             item.dataset.type = 'target';
+            item.style.width = '40px';
+            item.style.height = '40px';
+            // face는 천천히 떨어지게
+            const speedVariation = 0.5 + Math.random() * 0.3; 
+            item.dataset.speed = (this.fallSpeed * speedVariation).toString();
         } else {
             item.src = './img/Dotty_face.png';
             item.dataset.type = 'dotty';
+            item.style.width = '130px';
+            item.style.height = '150px';
+            // Dotty_face는 빠르게 떨어지게
+            const speedVariation = 1.0 + Math.random() * 0.5;
+            item.dataset.speed = (this.fallSpeed * speedVariation).toString();
         }
         
-        item.style.width = '50px';
-        item.style.height = '50px';
         item.style.position = 'absolute';
-        
-        const x = Math.random() * (window.innerWidth - 50);
+        const x = Math.random() * (window.innerWidth - parseInt(item.style.width));
         item.style.left = x + 'px';
         item.style.top = '-50px';
-        
-        const speedVariation = 0.7 + Math.random() * 0.6;
-        item.dataset.speed = (this.fallSpeed * speedVariation).toString();
         
         this.gameContainer.appendChild(item);
         this.fallingItems.push(item);
     }
+    
+    
     
     checkCollisions() {
         const playerRect = {
@@ -116,12 +126,23 @@ class FallingFaceGame {
             }
         }
     }
+
     
     handleCatch(item, itemRect) {
         const type = item.dataset.type;
         const centerX = itemRect.left + itemRect.width / 2;
         const centerY = itemRect.top + itemRect.height / 2;
         
+        // 오디오 재생
+        let audio;
+        if (type === 'target') {
+            audio = new Audio('./audio/hoitza.mp3');
+        } else {
+            audio = new Audio('./audio/zaitho.mp3');
+        }
+        audio.play();
+        
+        // 기존 게임 로직 그대로
         if (type === 'target') {
             this.targetCount++;
             this.score += 100;
@@ -157,6 +178,8 @@ class FallingFaceGame {
         this.removeItem(item);
         this.updateUI();
     }
+    
+    
     
     createCatchEffect(x, y, className) {
         const effect = document.createElement('div');
@@ -250,6 +273,7 @@ class FallingFaceGame {
         document.getElementById('gameOver').style.display = 'block';
         
         this.clearGame();
+        window.location.href = './victory.html';
     }
     
     gameOver() {
@@ -261,6 +285,7 @@ class FallingFaceGame {
         document.getElementById('gameOver').style.display = 'block';
         
         this.clearGame();
+        window.location.href = './fail.html';
     }
     
     clearGame() {
@@ -271,34 +296,18 @@ class FallingFaceGame {
         });
         this.fallingItems = [];
     }
-    
-    restart() {
-        this.targetCount = 0;
-        this.score = 0;
-        this.lives = 3;
-        this.gameActive = true;
-        this.spawnRate = 1200;
-        this.fallSpeed = 3;
-        this.playerX = window.innerWidth / 2 - 40;
-        
-        document.getElementById('gameOver').style.display = 'none';
-        this.updatePlayerPosition();
-        this.updateUI();
-        
-        this.clearGame();
-        
-        const effects = this.gameContainer.querySelectorAll('.catch-effect, .miss-effect, .score-popup');
-        effects.forEach(effect => {
-            if (effect.parentNode) {
-                effect.parentNode.removeChild(effect);
-            }
-        });
-        
-        clearInterval(this.spawnInterval);
-        this.startSpawning();
-    }
 }
 
 window.addEventListener('load', () => {
     new FallingFaceGame();
 });
+
+//새 모션 
+const bird = document.getElementById("bird");
+const birdFrames = ["./img/bird1.png", "./img/bird2.png"];
+let currentFrame = 0;
+
+setInterval(() => {
+  currentFrame = (currentFrame + 1) % birdFrames.length;
+  bird.src = birdFrames[currentFrame];
+}, 200);
