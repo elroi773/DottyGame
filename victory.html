@@ -84,6 +84,11 @@
           messageElement.innerHTML += text.charAt(i);
           i++;
           setTimeout(typeWriter, 100); // 글자 입력 속도
+        } else {
+          // 타이핑이 끝나면 다음 페이지로 이동
+          setTimeout(() => {
+            window.location.href = "./photocard.html";
+          }, 1000); // 1초 뒤 이동 (바로 이동 원하면 0으로)
         }
       }
 
