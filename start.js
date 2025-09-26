@@ -14,13 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let isBgmPlaying = false;
 
   function typing() {
-    if (!isBgmPlaying) {
-      bgm.play().catch(() => {
-        // 자동재생이 막힐 경우 사용자가 클릭하면 시작되게 처리
-        document.body.addEventListener("click", () => bgm.play(), { once: true });
-      });
-      isBgmPlaying = true;
-    }
 
     if (i < text.length) {
       if (text[i] === "\n") {
@@ -30,11 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       i++;
       setTimeout(typing, 50); // 타이핑 속도
-    } else {
-      // 타이핑이 완료되면 BGM 정지
-      bgm.pause();
-      bgm.currentTime = 0; // 재생 위치를 처음으로 리셋 (선택사항)
-    }
+    } 
   }
 
   typing();
