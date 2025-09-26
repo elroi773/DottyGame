@@ -1,27 +1,12 @@
 @font-face {
-  font-family: "Isamanru";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicLight.woff")
-    format("woff");
-  font-weight: 300;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Isamanru";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff")
+  font-family: "RoundedFixedsys";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff")
     format("woff");
   font-weight: normal;
   font-display: swap;
 }
-
-@font-face {
-  font-family: "Isamanru";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicBold.woff")
-    format("woff");
-  font-weight: 700;
-  font-display: swap;
-}
 * {
+  font-family: "RoundedFixedsys";
   box-sizing: border-box;
   text-align: center;
 }
@@ -42,6 +27,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  font-family: "RoundedFixedsys";
 }
 @keyframes backgroundScroll {
   0% {
@@ -68,7 +54,7 @@ img#hoverImg.hovering {
 }
 
 h1 {
-  font-family: "Isamanru";
+  font-family: "RoundedFixedsys";
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: 2px;
@@ -108,7 +94,7 @@ h1 {
 
 /* 버튼 스타일 */
 button {
-  font-family: "GMarketSans", sans-serif;
+  font-family: "RoundedFixedsys";
   margin-top: 40px;
   padding: 14px 28px;
   background: linear-gradient(135deg, #c5e864, #7bdc00);
