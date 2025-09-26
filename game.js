@@ -35,7 +35,7 @@ class FallingFaceGame {
             e.preventDefault();
         });
         
-        document.getElementById('restartBtn').addEventListener('click', () => {
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
             this.restart();
         });
 
@@ -81,7 +81,6 @@ class FallingFaceGame {
             item.dataset.type = 'target';
             item.style.width = '40px';
             item.style.height = '40px';
-            // face는 천천히 떨어지게
             const speedVariation = 0.5 + Math.random() * 0.3; 
             item.dataset.speed = (this.fallSpeed * speedVariation).toString();
         } else {
@@ -89,7 +88,6 @@ class FallingFaceGame {
             item.dataset.type = 'dotty';
             item.style.width = '130px';
             item.style.height = '150px';
-            // Dotty_face는 빠르게 떨어지게
             const speedVariation = 1.0 + Math.random() * 0.5;
             item.dataset.speed = (this.fallSpeed * speedVariation).toString();
         }
@@ -102,8 +100,6 @@ class FallingFaceGame {
         this.gameContainer.appendChild(item);
         this.fallingItems.push(item);
     }
-    
-    
     
     checkCollisions() {
         const playerRect = {
@@ -127,13 +123,11 @@ class FallingFaceGame {
         }
     }
 
-    
     handleCatch(item, itemRect) {
         const type = item.dataset.type;
         const centerX = itemRect.left + itemRect.width / 2;
         const centerY = itemRect.top + itemRect.height / 2;
         
-        // 오디오 재생
         let audio;
         if (type === 'target') {
             audio = new Audio('./audio/hoitza.mp3');
@@ -142,7 +136,6 @@ class FallingFaceGame {
         }
         audio.play();
         
-        // 기존 게임 로직 그대로
         if (type === 'target') {
             this.targetCount++;
             this.score += 100;
@@ -178,8 +171,6 @@ class FallingFaceGame {
         this.removeItem(item);
         this.updateUI();
     }
-    
-    
     
     createCatchEffect(x, y, className) {
         const effect = document.createElement('div');
@@ -267,11 +258,6 @@ class FallingFaceGame {
     gameWin() {
         this.gameActive = false;
         clearInterval(this.spawnInterval);
-        
-        document.getElementById('gameOverText').textContent = '축하합니다! 🎉';
-        document.getElementById('finalScore').textContent = this.score;
-        document.getElementById('gameOver').style.display = 'block';
-        
         this.clearGame();
         window.location.href = './victory.html';
     }
@@ -279,11 +265,6 @@ class FallingFaceGame {
     gameOver() {
         this.gameActive = false;
         clearInterval(this.spawnInterval);
-        
-        document.getElementById('gameOverText').textContent = '게임 오버! 💀';
-        document.getElementById('finalScore').textContent = this.score;
-        document.getElementById('gameOver').style.display = 'block';
-        
         this.clearGame();
         window.location.href = './fail.html';
     }
@@ -302,7 +283,7 @@ window.addEventListener('load', () => {
     new FallingFaceGame();
 });
 
-//새 모션 
+// 새 모션
 const bird = document.getElementById("bird");
 const birdFrames = ["./img/bird1.png", "./img/bird2.png"];
 let currentFrame = 0;
