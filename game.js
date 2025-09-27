@@ -13,6 +13,10 @@ class FallingFaceGame {
         this.fallSpeed = 3;
         this.keys = {};
         
+        // 모바일 컨트롤용 터치 상태
+        this.leftPressed = false;
+        this.rightPressed = false;
+        
         this.init();
     }
     
@@ -22,6 +26,7 @@ class FallingFaceGame {
         this.startSpawning();
         this.gameLoop();
         this.setupEventListeners();
+        this.setupMobileControls();
     }
     
     setupEventListeners() {
@@ -44,6 +49,77 @@ class FallingFaceGame {
         });
     }
     
+    setupMobileControls() {
+        const leftBtn = document.getElementById('leftBtn');
+        const rightBtn = document.getElementById('rightBtn');
+        
+        if (leftBtn && rightBtn) {
+            // 왼쪽 버튼 이벤트
+            leftBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.leftPressed = true;
+            });
+            
+            leftBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.leftPressed = false;
+            });
+            
+            leftBtn.addEventListener('touchcancel', (e) => {
+                e.preventDefault();
+                this.leftPressed = false;
+            });
+            
+            // 마우스 이벤트도 추가 (데스크톱에서 테스트용)
+            leftBtn.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                this.leftPressed = true;
+            });
+            
+            leftBtn.addEventListener('mouseup', (e) => {
+                e.preventDefault();
+                this.leftPressed = false;
+            });
+            
+            leftBtn.addEventListener('mouseleave', (e) => {
+                e.preventDefault();
+                this.leftPressed = false;
+            });
+            
+            // 오른쪽 버튼 이벤트
+            rightBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.rightPressed = true;
+            });
+            
+            rightBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.rightPressed = false;
+            });
+            
+            rightBtn.addEventListener('touchcancel', (e) => {
+                e.preventDefault();
+                this.rightPressed = false;
+            });
+            
+            // 마우스 이벤트도 추가 (데스크톱에서 테스트용)
+            rightBtn.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                this.rightPressed = true;
+            });
+            
+            rightBtn.addEventListener('mouseup', (e) => {
+                e.preventDefault();
+                this.rightPressed = false;
+            });
+            
+            rightBtn.addEventListener('mouseleave', (e) => {
+                e.preventDefault();
+                this.rightPressed = false;
+            });
+        }
+    }
+    
     updatePlayerPosition() {
         this.player.style.left = this.playerX + 'px';
     }
@@ -53,6 +129,7 @@ class FallingFaceGame {
         
         let moved = false;
         
+        // 키보드 입력
         if (this.keys['ArrowLeft'] || this.keys['a'] || this.keys['A']) {
             this.playerX -= this.playerSpeed;
             moved = true;
@@ -63,7 +140,20 @@ class FallingFaceGame {
             moved = true;
         }
         
-        this.playerX = Math.max(0, Math.min(window.innerWidth - 80, this.playerX));
+        // 모바일 터치 입력
+        if (this.leftPressed) {
+            this.playerX -= this.playerSpeed;
+            moved = true;
+        }
+        
+        if (this.rightPressed) {
+            this.playerX += this.playerSpeed;
+            moved = true;
+        }
+        
+        // 화면 경계 체크
+        const playerWidth = window.innerWidth <= 480 ? 90 : window.innerWidth <= 768 ? 120 : 200;
+        this.playerX = Math.max(0, Math.min(window.innerWidth - playerWidth, this.playerX));
         
         if (moved) {
             this.updatePlayerPosition();
@@ -102,11 +192,15 @@ class FallingFaceGame {
     }
     
     checkCollisions() {
+        const playerWidth = window.innerWidth <= 480 ? 90 : window.innerWidth <= 768 ? 120 : 200;
+        const playerHeight = window.innerWidth <= 480 ? 90 : window.innerWidth <= 768 ? 120 : 200;
+        const bottomOffset = window.innerWidth <= 768 ? 10 : 20;
+        
         const playerRect = {
             left: this.playerX,
-            right: this.playerX + 80,
-            top: window.innerHeight - 100,
-            bottom: window.innerHeight - 20
+            right: this.playerX + playerWidth,
+            top: window.innerHeight - playerHeight - bottomOffset,
+            bottom: window.innerHeight - bottomOffset
         };
         
         for (let i = this.fallingItems.length - 1; i >= 0; i--) {
@@ -134,7 +228,9 @@ class FallingFaceGame {
         } else {
             audio = new Audio('./audio/zaitho.mp3');
         }
-        audio.play();
+        audio.play().catch(() => {
+            // 오디오 재생 실패시 무시 (모바일에서 자주 발생)
+        });
         
         if (type === 'target') {
             this.targetCount++;
@@ -277,6 +373,26 @@ class FallingFaceGame {
         });
         this.fallingItems = [];
     }
+    
+    restart() {
+        this.targetCount = 0;
+        this.score = 0;
+        this.lives = 3;
+        this.gameActive = true;
+        this.fallingItems = [];
+        this.spawnRate = 1200;
+        this.fallSpeed = 3;
+        this.playerX = window.innerWidth / 2 - 40;
+        this.leftPressed = false;
+        this.rightPressed = false;
+        this.keys = {};
+        
+        this.clearGame();
+        document.getElementById('gameOver').style.display = 'none';
+        this.updatePlayerPosition();
+        this.updateUI();
+        this.startSpawning();
+    }
 }
 
 window.addEventListener('load', () => {
@@ -289,6 +405,11 @@ const birdFrames = ["./img/bird1.png", "./img/bird2.png"];
 let currentFrame = 0;
 
 setInterval(() => {
-  currentFrame = (currentFrame + 1) % birdFrames.length;
-  bird.src = birdFrames[currentFrame];
+    currentFrame = (currentFrame + 1) % birdFrames.length;
+    bird.src = birdFrames[currentFrame];
 }, 200);
+
+// 페이지가 로드될 때 터치 스크롤 방지
+document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
