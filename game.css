@@ -198,7 +198,6 @@ body {
     left: -60px;
   }
 }
-
 /* 모바일 대응 */
 @media screen and (max-width: 768px) {
   #player {
